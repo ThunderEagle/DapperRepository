@@ -9,16 +9,16 @@ using DapperRepository.DataMapping;
 using DapperRepository.Exceptions;
 
 namespace DapperRepository {
-	public class Repository<T, T1>:ReadOnlyRepository<T, T1>, IRepository<T, T1> where T : class {
+	public class Repository<T>:ReadOnlyRepository<T>, IRepository<T> where T : class {
 		public Repository(IConnectionFactory connectionFactory, ISQLBuilder<T> sqlBuilder)
 						: base(connectionFactory, sqlBuilder) { }
 
-		public override async Task<T> GetAsync(T1 id) {
+		public override async Task<T> GetAsync(int id) {
 			var result = await base.GetAsync(id);
 			return result?.AsTrackable();
 		}
 
-		public override T Get(T1 id) {
+		public override T Get(int id) {
 			return base.Get(id)?.AsTrackable();
 		}
 
@@ -31,12 +31,12 @@ namespace DapperRepository {
 			return base.GetAll().AsTrackable();
 		}
 
-		public virtual T1 Insert(T itemToInsert) {
+		public virtual int Insert(T itemToInsert) {
 			try {
 				var sql = SqlBuilder.GetInsertStatement(itemToInsert, out var parms);
 
 				using(var cn = ConnectionFactory.Invoke()) {
-					var key = cn.ExecuteScalar<T1>(sql, parms);
+					var key = cn.ExecuteScalar<int>(sql, parms);
 					(itemToInsert as IChangeTrackable)?.AcceptChanges();
 					return key;
 				}
@@ -142,7 +142,7 @@ namespace DapperRepository {
 			}
 		}
 
-		public virtual bool Delete(T1 id) {
+		public virtual bool Delete(int id) {
 			try {
 				var sql = SqlBuilder.GetDeleteByIdStatement();
 				using(var cn = ConnectionFactory.Invoke()) {
@@ -158,7 +158,7 @@ namespace DapperRepository {
 			}
 		}
 
-		public virtual bool Delete(IEnumerable<T1> ids) {
+		public virtual bool Delete(IEnumerable<int> ids) {
 			bool isSuccessful = true;
 			using(var transaction = TransactionScopeHelper.CreateNew()) {
 				var exceptions = new List<Exception>();

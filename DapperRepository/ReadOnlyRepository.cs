@@ -9,7 +9,7 @@ using DapperRepository.DataMapping;
 using DapperRepository.Exceptions;
 
 namespace DapperRepository {
-	public class ReadOnlyRepository<T, T1>:IReadOnlyRepository<T, T1> where T : class {
+	public class ReadOnlyRepository<T>:IReadOnlyRepository<T> where T : class {
 		public ReadOnlyRepository(IConnectionFactory connectionFactory, ISQLBuilder<T> sqlBuilder) {
 			ConnectionFactory = connectionFactory.GetConnection;
 			// custom mapping
@@ -22,7 +22,7 @@ namespace DapperRepository {
 		protected ISQLBuilder<T> SqlBuilder { get; }
 		protected Func<IDbConnection> ConnectionFactory { get; }
 
-		public virtual async Task<T> GetAsync(T1 id) {
+		public virtual async Task<T> GetAsync(int id) {
 			try {
 				var sql = SqlBuilder.GetSelectByIdStatement();
 				var parms = new DynamicParameters(new { id });
@@ -38,7 +38,7 @@ namespace DapperRepository {
 			}
 		}
 
-		public virtual T Get(T1 id) {
+		public virtual T Get(int id) {
 			try {
 				var sql = SqlBuilder.GetSelectByIdStatement();
 				var parms = new DynamicParameters(new { id });
