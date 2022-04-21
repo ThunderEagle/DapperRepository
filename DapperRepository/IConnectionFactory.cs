@@ -1,9 +1,7 @@
 ﻿using System.Data;
 
-namespace DapperRepository
-{
-    public interface IConnectionFactory
-    {
-        IDbConnection GetConnection();
-    }
+namespace DapperRepository {
+	public interface IConnectionFactory {
+		IDbConnection GetConnection();
+	}
 }

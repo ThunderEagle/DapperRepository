@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Reflection;
 
-namespace DapperRepository.Exceptions
-{
-	public class RepositoryException:Exception
-	{
+namespace DapperRepository.Exceptions {
+	public class RepositoryException:Exception {
 		public RepositoryException(MethodBase methodBase, Exception exception)
-			: base(exception.Message, exception)
-		{
+			: base(exception.Message, exception) {
 			Method = methodBase.Name;
 			Class = methodBase.DeclaringType != null ? methodBase.DeclaringType.FullName : null;
 		}

@@ -1,10 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.Reflection;
 
-namespace DapperRepository.DataMapping
-{
-	public class PropertyMap
-	{
+namespace DapperRepository.DataMapping {
+	public class PropertyMap {
 		public string PropertyName { get; set; }
 		public string ColumnName { get; set; }
 		public bool IsMapped { get; set; }
